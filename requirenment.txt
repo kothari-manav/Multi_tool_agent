@@ -8,3 +8,4 @@ langchain_huggingface
 sentence-transformers
 faiss-cpu
 uuid
+langgraph

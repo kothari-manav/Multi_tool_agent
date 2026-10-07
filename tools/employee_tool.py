@@ -21,9 +21,9 @@ def employee_lookup(name: str) ->str:
 
 @tool
 def employee_count_by_department(department: str) -> str:
-    """Counts how many employees are in a specific department, and the total employee count.
-    Use this when the user asks about department headcounts, team sizes, or percentage of employees in a department.
-    Example: 'How many employees are in Engineering?' -> department='Engineering'
+    """Counts employees in a specific department. Returns 0 if the department 
+    doesn't exist or has no employees — this is a valid, final answer, not an error.
+    Use this when the user asks about department headcounts or team sizes.
     """
     total = len(Employees)
     in_dept = sum(1 for emp in Employees.values() if emp["department"].lower() == department.lower())
