@@ -8,22 +8,21 @@ Employees={
 
 }
 @tool
-def employee_lookup(name: str) ->str:
-    """Look up Employee's department,role,email by their name 
-        Use this when employee asks for specific Employee details,department or role
-        Example: 'What department is John Doe in?' -> name='John Doe'
-
+def employee_lookup(name: str) -> str:
+    """Looks up an employee's department, role, and email by their full name.
+    Use this when the user asks about a specific employee's details, department, role, or email.
+    Example: 'What department is John Doe in?' -> name='John Doe'
     """
-    employee=Employees.get(name.lower())
+    employee = Employees.get(name.lower())
     if not employee:
-        return f"No Employee with name {name} is found."
-    return f"{name} works in {employee['department']} as a {employee['role']} Email : {employee['email']}"
+        return f"No employee with name {name} was found. This is a final answer."
+    return f"{name} works in {employee['department']} as a {employee['role']}. Email: {employee['email']}"
 
 @tool
 def employee_count_by_department(department: str) -> str:
-    """Counts employees in a specific department. Returns 0 if the department 
-    doesn't exist or has no employees — this is a valid, final answer, not an error.
-    Use this when the user asks about department headcounts or team sizes.
+    """Counts employees in a specific department, and returns the total employee count.
+    Use this when the user asks about department headcounts, team sizes, or the percentage of employees in a department.
+    A count of 0 is a valid, final answer, not an error. Do not call this tool again.
     """
     total = len(Employees)
     in_dept = sum(1 for emp in Employees.values() if emp["department"].lower() == department.lower())
