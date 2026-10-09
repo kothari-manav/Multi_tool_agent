@@ -29,4 +29,18 @@ print(response2["messages"][-1].content)
 config_user2 = {"configurable": {"thread_id": "user-2"}}  # different thread_id
 
 response = agent.invoke({"messages": [{"role": "user", "content": "What's his email?"}]}, config_user2)
-print(response["messages"][-1].content)"""
+print(response["messages"][-1].content)
+
+from tools.document_tool import vectorstore
+
+for q in [
+    "expenses above $500",
+    "how are expenses handled",
+    "What are the working hours?",
+]:
+    print("QUERY:", q)
+    for doc, score in vectorstore.similarity_search_with_score(q, k=5):
+        print(f"  {score:.4f} | {doc.page_content[:70]!r}")
+    print("-----")
+"""
+

@@ -8,7 +8,7 @@ loader=PyPDFLoader("data/Policy_Handbook.pdf")
 
 docs=loader.load()
 
-splitter=RecursiveCharacterTextSplitter(chunk_size=500,chunk_overlap=50)
+splitter=RecursiveCharacterTextSplitter(chunk_size=600,chunk_overlap=100)
 chunks=splitter.split_documents(docs)
 embedding=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 vectorstore=FAISS.from_documents(chunks,embedding)
@@ -16,9 +16,9 @@ vectorstore=FAISS.from_documents(chunks,embedding)
 @tool
 def document_search(query: str) -> str:
     """..."""
-    results = vectorstore.similarity_search_with_score(query, k=3)
+    results = vectorstore.similarity_search_with_score(query, k=5)
     
-    THRESHOLD = 1.0  # placeholder — replace with a real number after you check scores below
+    THRESHOLD = 1.5  
     
     relevant = [doc for doc, score in results if score < THRESHOLD]
     

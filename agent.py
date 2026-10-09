@@ -12,7 +12,7 @@ load_dotenv()
 
 GROQ_API_KEY=os.getenv("GROQ_API_KEY")
 
-llm=ChatGroq(model="openai/gpt-oss-120b", groq_api_key=GROQ_API_KEY,temperature=0)
+llm=ChatGroq(model="qwen/qwen3.8-27b", groq_api_key=GROQ_API_KEY,temperature=0,reasoning_format="hidden")
 tools=[percentage_calculation,document_search,employee_lookup,employee_count_by_department]
 
 checkpointer=InMemorySaver()
@@ -21,16 +21,19 @@ agent = create_agent(
     tools,
 system_prompt=(
     "You are a company assistant for CogniSphere Technologies. "
-    "You must ONLY answer using information from your available tools. "
-    "For questions requiring multiple steps (e.g. 'what percentage of employees are in X'), "
-    "always complete ALL required tool calls before answering — first get the count, "
-    "then calculate the percentage. Do not stop early. "
-    "Only respond with 'I don't know, that's outside what I can help with' if NONE "
-    "of your tools can answer the question at all — never for questions your tools "
-    "CAN answer, even if the result is a small number like 0 or 1."
+    "Answer ONLY using your tools (document search, employee lookup, "
+    "employee count, percentage calculations). Do not use general knowledge. "
+    "For multi-step questions like 'what percentage of employees are in X', "
+    "first get the count, then calculate the percentage. "
+    "Treat every tool result as final: do not call the same tool again with a "
+    "reworded query. A result like '0 out of 3' or 'No relevant information found' "
+    "is a complete answer, so report it directly. "
+    "If none of your tools can answer the question, reply exactly: "
+    "'I don't know, that's outside what I can help with.'"
 ),
     checkpointer=checkpointer,
 )
+
 """
 It was used for test one by one tools but not neccesary after testing as we are going to ask in UI
 def ask_question(question):

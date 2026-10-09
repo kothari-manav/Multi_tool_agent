@@ -16,7 +16,7 @@ for msg in st.session_state.messages:
         st.write(msg["content"])
 
 user_input=st.chat_input("Ask a question...")
-
+config = {"configurable": {"thread_id": st.session_state.thread_id}, "recursion_limit": 15}
 if user_input:
     # Show user message immediately
     st.session_state.messages.append({"role": "user", "content": user_input})
