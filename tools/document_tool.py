@@ -1,7 +1,7 @@
 from langchain_core.tools import tool
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import FAISS
 
 loader=PyPDFLoader("data/Policy_Handbook.pdf")
@@ -10,7 +10,7 @@ docs=loader.load()
 
 splitter=RecursiveCharacterTextSplitter(chunk_size=600,chunk_overlap=100)
 chunks=splitter.split_documents(docs)
-embedding=HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embedding=FastEmbedEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 vectorstore=FAISS.from_documents(chunks,embedding)
 
 @tool

@@ -1,13 +1,10 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-torch
 langchain
 langchain-groq
 langchain-community
-langchain-huggingface
 langgraph
 python-dotenv
 pypdf
-sentence-transformers
+fastembed
 faiss-cpu
 fastapi
 uvicorn
