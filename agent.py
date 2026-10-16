@@ -12,7 +12,8 @@ load_dotenv()
 
 GROQ_API_KEY=os.getenv("GROQ_API_KEY")
 
-llm=ChatGroq(model="qwen/qwen3.8-27b", groq_api_key=GROQ_API_KEY,temperature=0,reasoning_format="hidden")
+llm=ChatGroq(model="qwen/qwen3.8-27b", groq_api_key=GROQ_API_KEY,temperature=0,reasoning_format="hidden",max_tokens=800,
+    max_retries=3,)
 tools=[percentage_calculation,document_search,employee_lookup,employee_count_by_department]
 
 checkpointer=InMemorySaver()
