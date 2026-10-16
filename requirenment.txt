@@ -9,3 +9,5 @@ sentence-transformers
 faiss-cpu
 uuid
 langgraph
+fastapi
+uvicorn
