@@ -1,0 +1,11 @@
+langchain
+langchain-groq
+langchain-community
+langgraph
+python-dotenv
+pypdf
+fastembed
+faiss-cpu
+fastapi
+uvicorn
+requests

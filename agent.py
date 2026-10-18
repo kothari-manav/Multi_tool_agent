@@ -12,7 +12,8 @@ load_dotenv()
 
 GROQ_API_KEY=os.getenv("GROQ_API_KEY")
 
-llm=ChatGroq(model="qwen/qwen3.8-27b", groq_api_key=GROQ_API_KEY,temperature=0,reasoning_format="hidden")
+llm=ChatGroq(model="qwen/qwen3.8-27b", groq_api_key=GROQ_API_KEY,temperature=0,reasoning_format="hidden",max_tokens=800,
+    max_retries=3,)
 tools=[percentage_calculation,document_search,employee_lookup,employee_count_by_department]
 
 checkpointer=InMemorySaver()
@@ -33,6 +34,18 @@ system_prompt=(
 ),
     checkpointer=checkpointer,
 )
+
+RECURSION_LIMIT = 15
+
+def run_agent(message: str, thread_id: str) -> dict:
+    config = {"configurable": {"thread_id": thread_id}, "recursion_limit": RECURSION_LIMIT}
+    result = agent.invoke({"messages": [{"role": "user", "content": message}]}, config)
+    msgs = result["messages"]
+    last_human = max(i for i, m in enumerate(msgs) if m.type == "human")
+    tools_used = [c["name"] for m in msgs[last_human + 1:] if m.type == "ai"
+                  for c in (getattr(m, "tool_calls", None) or [])]
+    return {"answer": msgs[-1].content, "tools_used": tools_used}
+
 
 """
 It was used for test one by one tools but not neccesary after testing as we are going to ask in UI
