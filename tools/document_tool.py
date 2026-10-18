@@ -8,7 +8,7 @@ loader=PyPDFLoader("data/Policy_Handbook.pdf")
 
 docs=loader.load()
 
-splitter=RecursiveCharacterTextSplitter(chunk_size=600,chunk_overlap=100)
+splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
 chunks=splitter.split_documents(docs)
 embedding=FastEmbedEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 vectorstore=FAISS.from_documents(chunks,embedding)
