@@ -10,8 +10,6 @@ WORKDIR /home/user/app
 COPY --chown=user requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Download the embedding model at build time so startup is fast
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
 
 COPY --chown=user . .
 
